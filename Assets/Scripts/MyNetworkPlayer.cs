@@ -16,40 +16,40 @@ public class MyNetworkPlayer : NetworkBehaviour {
 
     #region Server
 
-        [Server] public void SetDisplayName(string newDisplayName) {
-            displayName = newDisplayName;
-        }
+    [Server] public void SetDisplayName(string newDisplayName) {
+        displayName = newDisplayName;
+    }
 
-        [Server] public void SetDisplayColor(Color newPlayerColor) {
-            displayColor = newPlayerColor;
-        }
+    [Server] public void SetDisplayColor(Color newPlayerColor) {
+        displayColor = newPlayerColor;
+    }
 
-        [Command] private void CmdSetDisplayName(string newDisplayName) {
-            if (newDisplayName.Length < 2 || newDisplayName.Length > 20) { return; }
-            RpcLogNewName(displayName);
-            SetDisplayName(newDisplayName);
-        }
+    [Command] private void CmdSetDisplayName(string newDisplayName) {
+        if (newDisplayName.Length < 2 || newDisplayName.Length > 20) { return; }
+        RpcLogNewName(displayName);
+        SetDisplayName(newDisplayName);
+    }
 
     #endregion
 
     #region Client
 
-        private void HandleDisplayNameUpdate(string oldName, string newName) {
-            displayNameText.text = newName;
-        }
+    private void HandleDisplayNameUpdate(string oldName, string newName) {
+        displayNameText.text = newName;
+    }
 
-        private void HandleDisplayColorUpdated(Color oldColor, Color newColor) {
-            displayColorRenderer.material.SetColor("_BaseColor", newColor);
-        }
+    private void HandleDisplayColorUpdated(Color oldColor, Color newColor) {
+        displayColorRenderer.material.SetColor("_BaseColor", newColor);
+    }
 
-        [ContextMenu("Set My Name")]
-        private void SetMyName() {
-            CmdSetDisplayName("My New Name");
-        }
+    [ContextMenu("Set My Name")]
+    private void SetMyName() {
+        CmdSetDisplayName("My New Name");
+    }
 
-        [ClientRpc] private void RpcLogNewName(string newDisplayName) {
-            Debug.Log(newDisplayName);
-        }
+    [ClientRpc] private void RpcLogNewName(string newDisplayName) {
+        Debug.Log(newDisplayName);
+    }
 
     #endregion
 }
